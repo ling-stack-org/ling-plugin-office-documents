@@ -25,7 +25,7 @@ export function verifyNativeReleaseSignature(path, platform) {
     const team = process.env.LING_PLUGIN_DARWIN_TEAM_ID;
     if (!/^[A-Z0-9]{10}$/u.test(team ?? "")) throw new Error("Release Team ID is required.");
     execFileSync("/usr/bin/codesign", ["--verify", "--deep", "--strict", "--all-architectures",
-      "-R", `anchor apple generic and certificate leaf[subject.OU] = "${team}" and certificate leaf[field.1.2.840.113635.100.6.1.13] exists`,
+      `-R=anchor apple generic and certificate leaf[subject.OU] = "${team}" and certificate leaf[field.1.2.840.113635.100.6.1.13] exists`,
       path], { stdio: "inherit", timeout: 30_000 });
     return;
   }
