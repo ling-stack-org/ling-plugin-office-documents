@@ -2,6 +2,7 @@ import { copyFile, cp, mkdir, mkdtemp, rm } from "node:fs/promises";
 import { execFileSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import { dirname, resolve } from "node:path";
+import { releaseInputs, verifyNativeReleaseSignature } from "./release-inputs.mjs";
 
 const root = resolve(import.meta.dirname, "..");
 const [platform, arch] = process.argv.slice(2);
@@ -11,6 +12,7 @@ const target = platform === "darwin" && arch === "arm64"
 if (!target || process.platform !== platform || process.arch !== arch) {
   throw new Error("Build the Office driver on its target platform and architecture.");
 }
+const release = await releaseInputs(root);
 
 const staging = await mkdtemp(resolve(tmpdir(), "ling-office-plugin-"));
 try {
@@ -24,6 +26,7 @@ try {
   const executable = platform === "darwin"
     ? resolve(destination, "Contents/MacOS/ling-office-driver")
     : destination;
+  if (release.channel === "stable") verifyNativeReleaseSignature(destination, platform);
   execFileSync(process.execPath, [resolve(root, "scripts/smoke-driver.mjs"), executable], { stdio: "inherit" });
   if (platform === "darwin") {
     execFileSync("/usr/bin/codesign", ["--verify", "--deep", "--strict", destination], { stdio: "inherit" });
@@ -34,10 +37,10 @@ try {
     "--output", resolve(root, "dist/packages"),
     "--platform", platform,
     "--arch", arch,
-    "--channel", "dev",
+    "--channel", release.channel,
     "--repository", "ling-stack-org/ling-plugin-office-documents",
-    "--releaseTag", process.env.LING_PLUGIN_RELEASE_TAG ?? "local-dev",
-    "--sourceSha", process.env.GITHUB_SHA ?? "local",
+    "--releaseTag", release.tag,
+    "--sourceSha", release.sourceSha,
   ], { stdio: "inherit" });
 } finally {
   await rm(staging, { recursive: true, force: true });
