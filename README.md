@@ -15,4 +15,4 @@ pnpm package:win
 
 The Windows helper requires the .NET 8 SDK. The macOS helper requires Xcode command-line tools.
 
-The product contract and release gates are in [docs/office-documents-native-plugin.md](docs/office-documents-native-plugin.md).
+The [native driver contract](docs/office-documents-native-plugin.md) describes the wire protocol and Excel capabilities. See [release and verification](docs/RELEASE.md) for platform packaging.

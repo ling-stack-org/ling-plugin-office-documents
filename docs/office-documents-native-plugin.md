@@ -10,11 +10,11 @@ Code and test anchors: `packages/contracts/src/office-documents.ts`,
 
 Related documents:
 
-- [Office Documents Native Plugin Implementation Plan](office-documents-native-plugin-implementation-plan.md)
-- [Plugin Manager](plugin-manager.md)
-- [Core Tools, Runners, MCP Tools, and Plugin Boundary](core-tools-runtime-boundary.md)
-- [Approval Policy](approval-policy.md)
-- [Desktop Release](../release/desktop.md)
+- [Office Documents Native Plugin Implementation Plan](https://github.com/ling-stack-org/ling-stack/blob/main/docs/design/office-documents-native-plugin-implementation-plan.md)
+- [Plugin Manager](https://github.com/ling-stack-org/ling-stack/blob/main/docs/design/plugin-manager.md)
+- [Core Tools, Runners, MCP Tools, and Plugin Boundary](https://github.com/ling-stack-org/ling-stack/blob/main/docs/design/core-tools-runtime-boundary.md)
+- [Approval Policy](https://github.com/ling-stack-org/ling-stack/blob/main/docs/design/approval-policy.md)
+- [Desktop Release](https://github.com/ling-stack-org/ling-stack/blob/main/docs/release/desktop.md)
 
 ## Product Contract
 
