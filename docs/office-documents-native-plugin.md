@@ -1,14 +1,12 @@
 # Office Documents Native Plugin
 
-Status: source implementation complete; real Office and WPS acceptance pending
-Owner: Desktop, daemon, Runner, and Plugin Manager maintainers
-Last verified: 2026-08-22
-Document type: long-lived product, runtime, security, and release contract
-Code and test anchors: `packages/contracts/src/office-documents.ts`,
-`packages/daemon/src/features/office-documents/`, `apps/desktop/main/office-driver/`,
-`packages/daemon/test/office-documents.test.mjs`, `apps/desktop/tests/office-driver-*.test.mjs`
+This repository owns the native Excel helpers and their release workflow. The macOS and
+Windows implementations and the stdio smoke test are here. [Native source](../native/office-driver/) · [Helper smoke test](../scripts/smoke-driver.mjs) · [Release guide](RELEASE.md)
 
-Related documents:
+Ling Stack owns the Office tool descriptors, Desktop process supervision, approvals and runtime
+validation. [Protocol constants](https://github.com/ling-stack-org/ling-stack/blob/main/packages/contracts/src/office-documents.ts) · [Desktop adapter](https://github.com/ling-stack-org/ling-stack/tree/main/apps/desktop/main/office-driver) · [Office integration tests](https://github.com/ling-stack-org/ling-stack/blob/main/packages/daemon/test/office-documents.test.mjs)
+
+Related documents
 
 - [Office Documents Native Plugin Implementation Plan](https://github.com/ling-stack-org/ling-stack/blob/main/docs/design/office-documents-native-plugin-implementation-plan.md)
 - [Plugin Manager](https://github.com/ling-stack-org/ling-stack/blob/main/docs/design/plugin-manager.md)
@@ -22,9 +20,9 @@ Ling ships one managed plugin named **Office Documents**. The user installs and 
 inside Ling. Live Excel control must not require an Excel add-in, an Office task pane, a
 Marketplace install, or a second Ling sign-in inside Excel.
 
-The plugin id is `built-in:office-documents`. Its logical MCP server id is
-`mcp_office_documents`. Installation is local control-plane state: the signed native driver
-already ships with Ling Desktop and is activated only after the user installs the plugin.
+The plugin ID is `official:office-documents` and its logical MCP server ID is
+`mcp_office_documents`. Ling Desktop loads the verified platform helper after a restart.
+Compatibility builds can also load the helper from their application resources. [Official plugin distribution](https://github.com/ling-stack-org/ling-stack/blob/main/docs/design/plugin-independent-packaging.md)
 
 Ling does not install or license Microsoft Office. If Excel is absent, the product says
 `Microsoft Excel was not detected` and keeps file-level OOXML tools available.
@@ -41,7 +39,7 @@ The plugin has two independent execution surfaces:
    and `.pptx` files without opening an Office application. This surface is available in
    Desktop and local Web/daemon mode.
 2. **Live Excel sessions** inspect and edit workbooks opened in Microsoft Excel. This surface
-   is Desktop-only and is provided by the bundled native driver.
+   is Desktop-only and uses the platform native helper.
 
 Word and PowerPoint live application control are not part of v1. WPS application control and
 the private `.et`, `.wps`, and `.dps` formats are not supported. Generated OOXML files must be
