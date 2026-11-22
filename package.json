@@ -1,0 +1,17 @@
+{
+  "name": "@ling-stack/office-documents-plugin",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "build:mac": "node scripts/build-office-driver.mjs --platform=darwin-arm64",
+    "build:win": "node scripts/build-office-driver.mjs --platform=win32-x64",
+    "stage:mac": "node scripts/stage-runtime.mjs --platform=darwin --arch=arm64",
+    "stage:win": "node scripts/stage-runtime.mjs --platform=win32 --arch=x64",
+    "package:mac": "pnpm build:mac && pnpm stage:mac && node scripts/package-plugin.mjs --root .ling-plugin-runtime --output dist --platform darwin --arch arm64 --channel stable --repository ling-stack-org/ling-plugin-office-documents",
+    "package:win": "pnpm build:win && pnpm stage:win && node scripts/package-plugin.mjs --root .ling-plugin-runtime --output dist --platform win32 --arch x64 --channel stable --repository ling-stack-org/ling-plugin-office-documents",
+    "check": "node --check scripts/build-office-driver.mjs && node --check scripts/stage-runtime.mjs"
+  },
+  "devDependencies": { "jszip": "3.10.2" }
+}
