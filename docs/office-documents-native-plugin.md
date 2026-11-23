@@ -202,9 +202,11 @@ information.
 
 ## Release Gates
 
-The Desktop package must include the correct helper for its platform, signed under the same
-release authority, with deterministic identity and hash evidence. A package without a valid
-helper projects file-level capability only and cannot claim live Excel support.
+The official plugin archive carries the helper for its target platform. The release process
+verifies the helper's platform signature and records its identity and file digests. Desktop
+selects the verified official cache entry or the helper shipped in a compatibility build.
+File-level document tools remain available when the live helper is unavailable.
+See the [release guide](RELEASE.md).
 
 Release acceptance requires real Microsoft Excel on supported Windows and macOS hosts. Mocked
 adapter tests are necessary but cannot close the platform gate. WPS acceptance verifies only
